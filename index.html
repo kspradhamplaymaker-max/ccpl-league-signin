@@ -4,14 +4,48 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>Sign in | CCPL HYD S2 League Portal</title>
+<title>League Portal | CCPL HYD Season 2</title>
+<meta name="description" content="Sponsor and league collateral, the team directory and league documents for the CCPL HYD Season 2 team, in one place.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Centre Court Pickleball League">
+<meta property="og:title" content="CCPL HYD Season 2 | League Portal">
+<meta property="og:description" content="Sponsor and league collateral, the team directory and league documents, in one place.">
+<meta property="og:url" content="https://kspradhamplaymaker-max.github.io/ccpl-league-signin/">
+<meta property="og:image" content="https://kspradhamplaymaker-max.github.io/ccpl-league-signin/preview.jpg">
+<meta property="og:image:secure_url" content="https://kspradhamplaymaker-max.github.io/ccpl-league-signin/preview.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Terminus Centre Court Pickleball League HYD">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CCPL HYD Season 2 | League Portal">
+<meta name="twitter:description" content="Sponsor and league collateral, the team directory and league documents, in one place.">
+<meta name="twitter:image" content="https://kspradhamplaymaker-max.github.io/ccpl-league-signin/preview.jpg">
+<meta name="theme-color" content="#333333">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>
-/* ===== The only two lines to fill in ===== */
-var CLIENT_ID  = '574074113846-jkasqr91f8j8v6g7c7371hkeap1c3a89.apps.googleusercontent.com';
-var PORTAL_URL = 'https://script.google.com/macros/s/AKfycbwYMXQDMTaq01OUQrB4fIwJxxelNdqrzq-pfS0RNb0CtQGkhQvuefbR1esun0jrgfS9/exec';
-/* ========================================= */
+/* ===== Settings ===== */
+var CLIENT_ID    = '574074113846-jkasqr91f8j8v6g7c7371hkeap1c3a89.apps.googleusercontent.com';
+var PORTAL_URL   = 'https://script.google.com/macros/s/AKfycbwYMXQDMTaq01OUQrB4fIwJxxelNdqrzq-pfS0RNb0CtQGkhQvuefbR1esun0jrgfS9/exec';
+var SUPPORT_TEXT = '';   /* Optional help line, for example: League Operations, +91 98xxx xxxxx (WhatsApp) */
+/* ==================== */
+</script>
+<script>
+/* Returning people go straight into the portal, unless they were just sent here to sign in again. */
+(function () {
+  var q = new URLSearchParams(location.search);
+  var msg = q.get('msg') || '';
+  try {
+    if (msg === 'signout' || msg === 'removed' || msg === 'expired' || msg === 'invalid') localStorage.removeItem('ccpl_lp_seen');
+    if (!q.get('signin') && !msg && localStorage.getItem('ccpl_lp_seen') === '1' && PORTAL_URL.indexOf('PASTE') < 0) {
+      document.documentElement.className = 'forwarding';
+      location.replace(PORTAL_URL);
+    }
+  } catch (e) { }
+})();
 </script>
 <script src="https://accounts.google.com/gsi/client" async defer onload="gisReady()" onerror="gisFailed()"></script>
 <style>
@@ -23,17 +57,21 @@ html,body{margin:0;min-height:100%;background:var(--graphite);color:#fff;font-fa
 .wrap::before{content:"";position:absolute;right:-20%;top:-30%;width:70%;height:160%;
 background:linear-gradient(100deg,transparent 0 47%,rgba(224,120,68,.9) 47% 50%,transparent 50% 100%);transform:skewX(-18deg);pointer-events:none}
 .logo{position:relative;height:150px;display:block;margin:0 auto 26px}
-.card{position:relative;background:#fff;color:var(--ink);border-radius:14px;max-width:440px;width:100%;padding:30px 28px 26px;text-align:center;
+.card{position:relative;background:#fff;color:var(--ink);border-radius:14px;max-width:460px;width:100%;padding:30px 28px 24px;text-align:center;
 box-shadow:0 30px 60px rgba(0,0,0,.35);border-top:5px solid var(--orange)}
 h1{font-family:var(--display);font-style:italic;font-weight:800;text-transform:uppercase;font-size:40px;line-height:.95;margin:4px 0 10px;color:var(--graphite)}
-p{margin:0 0 16px;color:var(--muted)}
+p{margin:0 0 18px;color:var(--muted)}
 #gbtn{display:flex;justify-content:center;min-height:44px;margin:4px 0 6px}
-.note{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.5}
-.err{background:#F9DAD5;color:#6E2216;border-radius:8px;padding:12px;font-size:14px;text-align:left;margin-bottom:12px}
-.warn{background:#FFF0D3;color:#6B4A0A;border-radius:8px;padding:12px;font-size:14px;text-align:left;margin-bottom:14px}
+.fine{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.5}
+.fine a{color:var(--orange-deep)}
+.msg{border-radius:8px;padding:12px;font-size:14px;text-align:left;margin-bottom:16px}
+.err{background:#F9DAD5;color:#6E2216}
+.warn{background:#FFF0D3;color:#6B4A0A}
+.ok{background:#DDF2E5;color:#1E5A3A}
 .spin{width:22px;height:22px;border:3px solid rgba(0,0,0,.12);border-top-color:var(--orange);border-radius:50%;animation:s .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px}
 @keyframes s{to{transform:rotate(360deg)}}
 .hide{display:none}
+html.forwarding .card{visibility:hidden}
 @media (max-width:480px){.logo{height:110px}h1{font-size:34px}}
 </style>
 </head>
@@ -44,28 +82,41 @@ p{margin:0 0 16px;color:var(--muted)}
     <h1>League Portal</h1>
     <div id="msg"></div>
     <div id="main">
-      <p>Sign in with the Google account you use for league work.</p>
+      <p>Sponsor and league collateral, the team directory and league documents, in one place.</p>
       <div id="gbtn"><span class="spin"></span></div>
-      <div class="note">The portal only receives your name and email address. You stay signed in on this device.</div>
+      <div class="fine">Choose your Google account. The portal only receives your name and email address, and you stay signed in on this device.</div>
+      <div class="fine hide" id="help"></div>
+      <div class="fine"><a href="privacy.html">Privacy</a></div>
     </div>
-    <div id="busy" class="hide"><p><span class="spin"></span>Signing you in</p></div>
+    <div id="busy" class="hide"><p><span class="spin"></span>Opening the League Portal</p></div>
   </div>
 </div>
 <script>
-function show(id, html, cls) { var m = document.getElementById(id); m.innerHTML = html ? '<div class="' + cls + '">' + html + '</div>' : ''; }
+function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function show(html, cls) { document.getElementById('msg').innerHTML = html ? '<div class="msg ' + cls + '">' + html + '</div>' : ''; }
 function inApp() { return /FBAN|FBAV|Instagram|Line\/|LinkedInApp|Snapchat|WhatsApp|; wv\)/i.test(navigator.userAgent || ''); }
 var configured = CLIENT_ID.indexOf('PASTE') < 0 && /^https:\/\/script\.google\.com\/.+\/exec$/.test(PORTAL_URL);
-if (!configured) show('msg', 'This sign-in page has not been set up yet. Please contact League Operations.', 'err');
-if (inApp()) show('msg', 'Google sign-in does not work inside this app. Tap the menu and choose <b>Open in browser</b> (Chrome or Safari).', 'warn');
+var MSGS = {
+  signout: ['You have signed out.', 'ok'],
+  expired: ['Your sign-in has expired. Please sign in again.', 'warn'],
+  removed: ['Your access to the League Portal has been removed. If you think this is a mistake, please contact League Operations.', 'err'],
+  invalid: ['That sign-in did not go through. Please try again.', 'warn']
+};
+var code = new URLSearchParams(location.search).get('msg') || '';
+if (MSGS[code]) show(MSGS[code][0], MSGS[code][1]);
+if (!configured) show('This page has not been set up yet. Please contact League Operations.', 'err');
+if (inApp()) show('Google sign-in does not work inside this app. Tap the menu and choose <b>Open in browser</b> (Chrome or Safari).', 'warn');
+if (SUPPORT_TEXT) { var hp = document.getElementById('help'); hp.textContent = 'Need help? ' + SUPPORT_TEXT; hp.className = 'fine'; }
 
 function onCredential(resp) {
-  if (!resp || !resp.credential) { show('msg', 'Google did not complete the sign-in. Please try again.', 'err'); return; }
+  if (!resp || !resp.credential) { show('Google did not complete the sign-in. Please try again.', 'err'); return; }
+  try { localStorage.setItem('ccpl_lp_seen', '1'); } catch (e) { }
   document.getElementById('main').className = 'hide';
   document.getElementById('busy').className = '';
-  window.location.replace(PORTAL_URL + '?idt=' + encodeURIComponent(resp.credential));
+  location.replace(PORTAL_URL + '?idt=' + encodeURIComponent(resp.credential));
 }
 function gisReady() {
-  if (!configured) { document.getElementById('gbtn').innerHTML = ''; return; }
+  if (!configured || document.documentElement.className === 'forwarding') { document.getElementById('gbtn').innerHTML = ''; return; }
   google.accounts.id.initialize({ client_id: CLIENT_ID, callback: onCredential, auto_select: false, cancel_on_tap_outside: true, itp_support: true, ux_mode: 'popup' });
   var w = Math.min(320, document.getElementById('gbtn').clientWidth || 320);
   document.getElementById('gbtn').innerHTML = '';
@@ -73,7 +124,7 @@ function gisReady() {
 }
 function gisFailed() {
   document.getElementById('gbtn').innerHTML = '';
-  show('msg', 'Google sign-in could not load. Check your internet connection, turn off any content blocker for this page, and reload.', 'err');
+  show('Google sign-in could not load. Check your internet connection, turn off any content blocker for this page, and reload.', 'err');
 }
 </script>
 </body>
